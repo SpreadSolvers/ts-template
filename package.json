@@ -8,6 +8,11 @@
 		"*.{js,ts}": "eslint --fix",
 		"*.{js,ts,json}": "prettier --write"
 	},
+	"commitlint": {
+		"extends": [
+			"@commitlint/config-conventional"
+		]
+	},
 	"scripts": {
 		"prepare": "husky",
 		"check-types": "tsc --noEmit",
@@ -21,17 +26,30 @@
 		"viem": "^2.37.11",
 		"zod": "^4.1.11"
 	},
+	"prettier": {
+		"plugins": [
+			"prettier-plugin-organize-imports"
+		],
+		"useTabs": true,
+		"tabWidth": 4,
+		"singleQuote": false,
+		"trailingComma": "all",
+		"printWidth": 120,
+		"semi": false
+	},
 	"devDependencies": {
+		"@commitlint/config-conventional": "^20.0.0",
 		"@eslint/js": "^9.36.0",
+		"commitlint": "^20.1.0",
 		"eslint": "^9.36.0",
 		"eslint-plugin-unused-imports": "^4.2.0",
 		"globals": "^16.4.0",
 		"husky": "^9.1.7",
 		"jiti": "^2.6.1",
 		"lint-staged": "^15.5.2",
-		"ts-node": "^10.9.2",
-		"typescript-eslint": "^8.45.0",
 		"prettier": "3.5.3",
-		"prettier-plugin-organize-imports": "4.1.0"
+		"prettier-plugin-organize-imports": "4.1.0",
+		"ts-node": "^10.9.2",
+		"typescript-eslint": "^8.45.0"
 	}
 }
