@@ -1,10 +1,10 @@
 import { Address, formatUnits, isAddressEqual, parseUnits } from "viem"
-import { ChainClientService } from "../../../evm-chain-client/chain-client.service"
+import { ChainIdUtils } from "../../../caip-id/services/chain-id-utils"
+import { TokenIdUtils } from "../../../caip-id/services/token-id-utils"
+import { TokenId } from "../../../caip-id/value-objects/token-id"
+import { IChainClientService } from "../../../evm-chain-client/chain-client-service-interface"
 import { shortenAddress } from "../../helpers"
 import { BaseContract } from "../contracts/BaseContract"
-import { TokenId } from "../../../caip-id/value-objects/token-id"
-import { TokenIdUtils } from "../../../caip-id/services/token-id-utils"
-import { ChainIdUtils } from "../../../caip-id/services/chain-id-utils"
 import { IToken, TokenMetadata } from "./IToken"
 
 const NAMESPACE = "eip155"
@@ -17,7 +17,7 @@ export abstract class TokenBase extends BaseContract implements IToken {
 	private currencyId: TokenId
 
 	constructor(
-		chainClientService: ChainClientService,
+		chainClientService: IChainClientService,
 		address: Address,
 		chainId: number,
 		tokenMetadata: TokenMetadata,
@@ -28,20 +28,14 @@ export abstract class TokenBase extends BaseContract implements IToken {
 		this.decimals = tokenMetadata.decimals
 		this.name = tokenMetadata.name
 
-		const caip2ChainId = ChainIdUtils.generateId(
-			NAMESPACE,
-			chainId.toString(),
-		)
+		const caip2ChainId = ChainIdUtils.generateId(NAMESPACE, chainId.toString())
 		this.currencyId = TokenIdUtils.generateId(caip2ChainId, address)
 	}
 
 	abstract isNative(): boolean
 
 	isSame(token: TokenBase): boolean {
-		return (
-			isAddressEqual(this.address, token.address) &&
-			this.chainId === token.chainId
-		)
+		return isAddressEqual(this.address, token.address) && this.chainId === token.chainId
 	}
 
 	abstract balanceOf(address: Address): Promise<bigint>

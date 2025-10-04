@@ -11,12 +11,12 @@ import {
 	superposition,
 	swellchain,
 } from "viem/chains"
+import { IChainClientService } from "../../../evm-chain-client/chain-client-service-interface"
 import { WETH_ABI } from "../../abi/weth"
-import { ChainClientService } from "../../../evm-chain-client/chain-client.service"
+import type { TokenMetadata } from "./IToken"
 import { NativeCurrency } from "./NativeCurrency"
 import { Token } from "./Token"
 import { WrappedNativeError } from "./TokenErrors"
-import type { TokenMetadata } from "./IToken"
 
 export const wrappedTokens: Record<number, Address | undefined> = {
 	[arbitrum.id]: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
@@ -35,7 +35,7 @@ export const wrappedTokens: Record<number, Address | undefined> = {
 
 export class WrappedNative extends Token {
 	constructor(
-		chainClientService: ChainClientService,
+		chainClientService: IChainClientService,
 		readonly native: NativeCurrency,
 		chainId: number,
 		tokenMetadata: TokenMetadata,

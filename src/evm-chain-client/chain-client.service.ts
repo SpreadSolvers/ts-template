@@ -22,19 +22,11 @@ export class ChainClientService implements IChainClientService {
 
 	public customError = createCustomError("ChainClientService")
 
-	private clients: Map<
-		number,
-		PublicClient<FallbackTransport, Chain, undefined, undefined>
-	> = new Map()
+	private clients: Map<number, PublicClient<FallbackTransport, Chain, undefined, undefined>> = new Map()
 
-	private walletClients: Map<
-		number,
-		WalletClient<FallbackTransport, Chain, LocalAccount, undefined>
-	> = new Map()
+	private walletClients: Map<number, WalletClient<FallbackTransport, Chain, LocalAccount, undefined>> = new Map()
 
-	getWalletClient(
-		chainId: number,
-	): WalletClient<FallbackTransport, Chain, LocalAccount, undefined> {
+	getWalletClient(chainId: number): WalletClient<FallbackTransport, Chain, LocalAccount, undefined> {
 		const existingClient = this.walletClients.get(chainId)
 
 		if (existingClient) return existingClient
@@ -60,9 +52,7 @@ export class ChainClientService implements IChainClientService {
 	 * @returns PublicClient
 	 * @dev If custom rpc url is set, it will be used ONCE the client is created
 	 */
-	getClient(
-		chainId: number,
-	): PublicClient<FallbackTransport, Chain, undefined, undefined> {
+	getClient(chainId: number): PublicClient<FallbackTransport, Chain, undefined, undefined> {
 		const existingClient = this.clients.get(chainId)
 
 		if (existingClient) {
@@ -72,12 +62,7 @@ export class ChainClientService implements IChainClientService {
 		const chain = this.getChain(chainId)
 		const transport = this.getTransport(chainId)
 
-		const client = createPublicClient<
-			FallbackTransport,
-			Chain,
-			undefined,
-			undefined
-		>({
+		const client = createPublicClient<FallbackTransport, Chain, undefined, undefined>({
 			chain,
 			transport,
 		})
@@ -101,8 +86,7 @@ export class ChainClientService implements IChainClientService {
 
 		/* ======== Insert Default Transport ======== */
 
-		const disableDefaultRpcUrl =
-			this.config.rpcSettings?.[chainId]?.disableDefaultRpcUrl
+		const disableDefaultRpcUrl = this.config.rpcSettings?.[chainId]?.disableDefaultRpcUrl
 
 		const defaultRpcUrl = chain.rpcUrls.default.http[0]
 
@@ -142,20 +126,14 @@ export class ChainClientService implements IChainClientService {
 	}
 
 	findChainById(chainId: number): Chain {
-		let chain: Chain | undefined = Object.values(chains).find(
-			(chain) => chain.id === chainId,
-		)
+		let chain: Chain | undefined = Object.values(chains).find((chain) => chain.id === chainId)
 
 		if (!chain) {
-			chain = this.config.customChains?.find(
-				(chain) => chain.id === chainId,
-			)
+			chain = this.config.customChains?.find((chain) => chain.id === chainId)
 		}
 
 		if (!chain) {
-			throw new this.customError(
-				`Chain with id ${chainId} not found in viem chains and custom chains`,
-			)
+			throw new this.customError(`Chain with id ${chainId} not found in viem chains and custom chains`)
 		}
 
 		return chain
@@ -166,8 +144,7 @@ export class ChainClientService implements IChainClientService {
 
 		if (chainName === "bsc" || chainName === "bnb") return chains.bsc
 
-		if (chainName === "ethereum" || chainName === "mainnet")
-			return chains.mainnet
+		if (chainName === "ethereum" || chainName === "mainnet") return chains.mainnet
 
 		const chain = Object.values(chains).find((chain) => {
 			if (chain.name.toLowerCase().includes("testnet")) return false

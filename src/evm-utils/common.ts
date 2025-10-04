@@ -1,7 +1,6 @@
 import * as dotenv from "dotenv"
 
-export const wait = (ms: number): Promise<void> =>
-	new Promise((resolve) => setTimeout(resolve, ms))
+export const wait = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms))
 
 dotenv.config()
 
@@ -17,7 +16,10 @@ export function getEnvSafe(key: string): string {
 
 export function createCustomError(errorName: string) {
 	return class CustomError extends Error {
-		constructor(message: string, public context?: unknown) {
+		constructor(
+			message: string,
+			public context?: unknown,
+		) {
 			super(message)
 			Object.setPrototypeOf(this, new.target.prototype)
 			this.name = errorName
@@ -32,11 +34,7 @@ export function isStringsEqual(a: string, b: string): boolean {
 	return a.toLowerCase() === b.toLowerCase()
 }
 
-export function convertDecimals<T extends { decimals: number }>(
-	value: bigint,
-	from: T,
-	to: T,
-): bigint {
+export function convertDecimals<T extends { decimals: number }>(value: bigint, from: T, to: T): bigint {
 	const fromDecimals = from.decimals
 	const toDecimals = to.decimals
 

@@ -1,17 +1,9 @@
-import {
-	Chain,
-	FallbackTransport,
-	LocalAccount,
-	PublicClient,
-	WalletClient,
-} from "viem"
+import { Chain, FallbackTransport, LocalAccount, PublicClient, WalletClient } from "viem"
 
 export interface IChainClientService {
 	// constructor(private readonly config: ChainClientConfigService) {}
 
-	getWalletClient(
-		chainId: number,
-	): WalletClient<FallbackTransport, Chain, LocalAccount, undefined>
+	getWalletClient(chainId: number): WalletClient<FallbackTransport, Chain, LocalAccount, undefined>
 
 	/**
 	 * Creates new client for passed chainId, or retrieves instance if it already exists
@@ -19,9 +11,7 @@ export interface IChainClientService {
 	 * @returns PublicClient
 	 * @dev If custom rpc url is set, it will be used ONCE the client is created
 	 */
-	getClient(
-		chainId: number,
-	): PublicClient<FallbackTransport, Chain, undefined, undefined>
+	getClient(chainId: number): PublicClient<FallbackTransport, Chain, undefined, undefined>
 
 	getTransport(chainId: number): FallbackTransport
 

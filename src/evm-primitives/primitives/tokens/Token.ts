@@ -1,20 +1,13 @@
-import {
-	Address,
-	erc20Abi,
-	isAddress,
-	isAddressEqual,
-	maxUint256,
-	TransactionReceipt,
-} from "viem"
-import { ChainClientService } from "../../../evm-chain-client/chain-client.service"
+import { Address, erc20Abi, isAddress, isAddressEqual, maxUint256, TransactionReceipt } from "viem"
+import { IChainClientService } from "../../../evm-chain-client/chain-client-service-interface"
+import { TokenMetadata } from "./IToken"
 import { NATIVE_ADDRESS, STARGATE_NATIVE_ADDRESS } from "./NativeCurrency"
 import { TokenBase } from "./TokenBase"
 import { TokenError } from "./TokenErrors"
-import { TokenMetadata } from "./IToken"
 
 export class Token extends TokenBase {
 	constructor(
-		chainClientService: ChainClientService,
+		chainClientService: IChainClientService,
 		address: Address,
 		chainId: number,
 		tokenMetadata: TokenMetadata,
@@ -33,29 +26,18 @@ export class Token extends TokenBase {
 			throw new TokenError(`Invalid address for token ${this.symbol}`)
 		}
 
-		if (
-			isAddressEqual(address, NATIVE_ADDRESS) ||
-			isAddressEqual(address, STARGATE_NATIVE_ADDRESS)
-		) {
-			throw new TokenError(
-				`Cannot make a token from native currency ${this.symbol}`,
-			)
+		if (isAddressEqual(address, NATIVE_ADDRESS) || isAddressEqual(address, STARGATE_NATIVE_ADDRESS)) {
+			throw new TokenError(`Cannot make a token from native currency ${this.symbol}`)
 		}
 	}
 
 	private validateDecimals(decimals: number): void {
 		if (decimals < 0 || decimals > 18) {
-			throw new TokenError(
-				`Invalid token decimals (${decimals}), must be between 0 and 18`,
-			)
+			throw new TokenError(`Invalid token decimals (${decimals}), must be between 0 and 18`)
 		}
 	}
 
-	async hasEnoughAllowance(
-		address: Address,
-		spender: Address,
-		amount: bigint,
-	): Promise<boolean> {
+	async hasEnoughAllowance(address: Address, spender: Address, amount: bigint): Promise<boolean> {
 		const allowance = await this.allowance(address, spender)
 
 		return allowance >= amount
@@ -81,10 +63,7 @@ export class Token extends TokenBase {
 		return allowance
 	}
 
-	async approve(
-		spender: Address,
-		amount: bigint,
-	): Promise<TransactionReceipt> {
+	async approve(spender: Address, amount: bigint): Promise<TransactionReceipt> {
 		const hash = await this.wallet.writeContract({
 			address: this.address,
 			abi: erc20Abi,
@@ -99,9 +78,7 @@ export class Token extends TokenBase {
 		return receipt
 	}
 
-	async approveInfinite(
-		spender: Address,
-	): Promise<TransactionReceipt | undefined> {
+	async approveInfinite(spender: Address): Promise<TransactionReceipt | undefined> {
 		const allowance = await this.allowance(this.account.address, spender)
 
 		const infiniteThreshold = this.parseUnits("1000000000000000000000000")

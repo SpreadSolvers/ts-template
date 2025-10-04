@@ -1,6 +1,6 @@
 export type RpcUrl = `http${string}`
 export type ChainRpcSettings = {
-	rpcUrls: (RpcUrl | 'alchemy')[]
+	rpcUrls: (RpcUrl | "alchemy")[]
 	disableDefaultRpcUrl: boolean
 }
 export type RpcSettings = Record<string, ChainRpcSettings>

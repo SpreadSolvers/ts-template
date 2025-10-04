@@ -4,10 +4,7 @@ import { RpcUrl } from "./types"
 
 export class ChainClientConfigService {
 	privateKey!: Hex
-	rpcSettings?: Record<
-		number,
-		{ rpcUrls: RpcUrl[]; disableDefaultRpcUrl: boolean } | undefined
-	>
+	rpcSettings?: Record<number, { rpcUrls: RpcUrl[]; disableDefaultRpcUrl: boolean } | undefined>
 	customChains?: Chain[]
 
 	constructor() {

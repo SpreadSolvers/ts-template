@@ -1,25 +1,15 @@
 import { Address, isAddressEqual } from "viem"
-import { ChainClientService } from "../../../evm-chain-client/chain-client.service"
+import { IChainClientService } from "../../../evm-chain-client/chain-client-service-interface"
+import { TokenMetadata } from "./IToken"
 import { TokenBase } from "./TokenBase"
 import { NativeCurrencyError } from "./TokenErrors"
-import { TokenMetadata } from "./IToken"
 
 export const NATIVE_ADDRESS = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-export const STARGATE_NATIVE_ADDRESS =
-	"0x0000000000000000000000000000000000000000"
+export const STARGATE_NATIVE_ADDRESS = "0x0000000000000000000000000000000000000000"
 
 export class NativeCurrency extends TokenBase {
-	constructor(
-		chainClientService: ChainClientService,
-		chainId: number,
-		tokenMetadata: TokenMetadata,
-	) {
-		super(
-			chainClientService,
-			STARGATE_NATIVE_ADDRESS,
-			chainId,
-			tokenMetadata,
-		)
+	constructor(chainClientService: IChainClientService, chainId: number, tokenMetadata: TokenMetadata) {
+		super(chainClientService, STARGATE_NATIVE_ADDRESS, chainId, tokenMetadata)
 	}
 
 	isNative(): true {
@@ -27,11 +17,7 @@ export class NativeCurrency extends TokenBase {
 	}
 
 	validateNativeAddress(address: Address) {
-		if (
-			isAddressEqual(address, NATIVE_ADDRESS) ||
-			isAddressEqual(address, STARGATE_NATIVE_ADDRESS)
-		)
-			return
+		if (isAddressEqual(address, NATIVE_ADDRESS) || isAddressEqual(address, STARGATE_NATIVE_ADDRESS)) return
 
 		throw new NativeCurrencyError(
 			`Invalid native currency address, got ${address} expected ${NATIVE_ADDRESS} or ${STARGATE_NATIVE_ADDRESS}`,
