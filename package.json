@@ -1,5 +1,5 @@
 {
-	"name": "evm",
+	"name": "ts-template",
 	"version": "1.0.0",
 	"license": "MIT",
 	"type": "module",
@@ -12,20 +12,6 @@
 			"@commitlint/config-conventional"
 		]
 	},
-	"scripts": {
-		"prepare": "husky",
-		"check-types": "tsc --noEmit",
-		"lint": "eslint .",
-		"test": "echo 'No test framework implemented'",
-		"format": "prettier . --write"
-	},
-	"dependencies": {
-		"@types/node": "^24.6.2",
-		"dotenv": "^17.2.3",
-		"typescript": "^5.9.3",
-		"viem": "^2.37.11",
-		"zod": "^4.1.11"
-	},
 	"prettier": {
 		"plugins": [
 			"prettier-plugin-organize-imports"
@@ -36,6 +22,17 @@
 		"trailingComma": "all",
 		"printWidth": 120,
 		"semi": false
+	},
+	"scripts": {
+		"prepare": "husky",
+		"check-types": "tsc --noEmit",
+		"lint": "eslint .",
+		"test": "echo 'No test framework implemented'",
+		"format": "prettier . --write"
+	},
+	"dependencies": {
+		"@types/node": "^24.6.2",
+		"typescript": "^5.9.3"
 	},
 	"devDependencies": {
 		"@commitlint/config-conventional": "^20.0.0",

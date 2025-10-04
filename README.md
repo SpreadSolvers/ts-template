@@ -1,164 +1,151 @@
-# EVM Toolchain
+# TypeScript Project Template
 
-A TypeScript library for EVM blockchain interactions built with [viem](https://viem.sh). This toolchain provides primitives for working with tokens, contracts, and chain clients across multiple EVM networks.
+A modern TypeScript project template with comprehensive development tooling and best practices for building robust applications.
 
-## Primitives
+## Features
 
-### Token Primitives
+### Development Tooling
 
-The library provides a comprehensive token system with the following primitives:
+- **TypeScript** - Latest TypeScript configuration with strict settings
+- **ESLint** - Code linting with TypeScript support and recommended rules
+- **Prettier** - Code formatting with import organization
+- **Husky** - Git hooks for pre-commit checks
+- **lint-staged** - Run linters on staged files only
+- **Commitlint** - Conventional commit message validation
 
-#### `Token`
+### Project Structure
 
-Standard ERC20 token implementation with full functionality:
+```
+ts-template/
+├── src/
+│   └── example.ts          # Example TypeScript file
+├── eslint.config.ts        # ESLint configuration
+├── tsconfig.json          # TypeScript configuration
+├── package.json           # Project dependencies and scripts
+└── README.md              # Project documentation
+```
 
-- **Address validation** - Ensures valid contract addresses
-- **Balance queries** - `balanceOf(address)` to get token balances
-- **Allowance management** - `allowance()` and `approve()` for spending permissions
-- **Infinite approval** - `approveInfinite()` for gas-efficient approvals
-- **Metadata** - Symbol, name, decimals, and CAIP-10 token ID
+### Configuration Highlights
 
-#### `NativeCurrency`
+#### TypeScript (`tsconfig.json`)
 
-Represents native blockchain currencies (ETH, BNB, etc.):
+- **ES2022 target** with CommonJS modules
+- **Strict type checking** enabled
+- **Source maps** and declaration files
+- **Unused locals** detection
+- **Node.js** environment support
 
-- **Multi-chain support** - Pre-configured for Arbitrum, Base, BSC, Fuse, and others
-- **Balance queries** - Native balance checking via `getBalance()`
-- **Address validation** - Validates native currency addresses
+#### ESLint (`eslint.config.ts`)
 
-#### `WrappedNative`
+- **Flat config** format (ESLint 9+)
+- **TypeScript** integration
+- **Recommended** rules for JavaScript and TypeScript
+- **Browser globals** support
 
-Wrapped versions of native currencies (WETH, WBNB, etc.):
+#### Prettier
 
-- **Chain-specific addresses** - Pre-configured wrapped token addresses per chain
-- **ERC20 compatibility** - Full ERC20 functionality for wrapped tokens
-- **Native currency reference** - Links back to the underlying native currency
+- **Tab indentation** (4 spaces)
+- **Double quotes** for strings
+- **Trailing commas** everywhere
+- **120 character** line width
+- **Import organization** plugin
 
-#### `TokenAmount`
+## Getting Started
 
-Represents a specific amount of any token type:
+1. **Clone the template**
 
-- **Type safety** - Ensures operations only on compatible tokens
-- **Math operations** - `add()` and `sub()` with validation
-- **Token validation** - Prevents operations on different token types
+    ```bash
+    git clone <repository-url> my-project
+    cd my-project
+    ```
 
-### Contract Primitives
+2. **Install dependencies**
 
-#### `BaseContract`
+    ```bash
+    yarn install
+    # or
+    npm install
+    ```
 
-Abstract base class for all contract interactions:
+3. **Start developing**
 
-- **Address validation** - Ensures valid contract addresses
-- **Chain client integration** - Provides access to viem clients
-- **Account management** - Wallet and account access
-- **Type safety** - TypeScript support for all operations
+    ```bash
+    # Type checking
+    yarn check-types
 
-### Transaction Primitives
+    # Linting
+    yarn lint
 
-#### `Tx`
+    # Formatting
+    yarn format
+    ```
 
-Simple transaction representation:
+## Available Scripts
 
-- **Hash tracking** - Transaction hash and chain ID
-- **Chain identification** - Links transactions to specific chains
+- `yarn check-types` - Run TypeScript compiler without emitting files
+- `yarn lint` - Run ESLint on all files
+- `yarn format` - Format code with Prettier
+- `yarn test` - Placeholder for test framework (not implemented)
 
-## Chain Client
+## Git Hooks
 
-The `ChainClientService` provides a unified interface for blockchain interactions:
+The template includes pre-commit hooks that automatically:
 
-### Features
+- **Lint** staged JavaScript/TypeScript files
+- **Format** staged files with Prettier
+- **Validate** commit messages follow conventional format
 
-- **Multi-chain support** - Manage multiple EVM chains simultaneously
-- **Client caching** - Reuses clients for efficiency
-- **Fallback RPC** - Automatic failover between RPC endpoints
-- **Custom chains** - Support for custom blockchain configurations
-- **Wallet integration** - Private key-based account management
+## Customization
 
-### Configuration
+### Adding Dependencies
 
-The chain client supports flexible configuration through `ChainClientConfigService`:
+```bash
+# Runtime dependencies
+yarn add <package-name>
+
+# Development dependencies
+yarn add -D <package-name>
+```
+
+### Extending ESLint Rules
+
+Edit `eslint.config.ts` to add custom rules or plugins:
 
 ```typescript
-// RPC settings with fallback support
-rpcSettings: {
-  [chainId]: {
-    rpcUrls: ["https://rpc-url.com", "alchemy"], // "alchemy" auto-builds Alchemy URLs
-    disableDefaultRpcUrl: false
-  }
+export default defineConfig([
+	// ... existing config
+	{
+		rules: {
+			// Add custom rules here
+		},
+	},
+])
+```
+
+### TypeScript Configuration
+
+Modify `tsconfig.json` to adjust compiler options:
+
+```json
+{
+	"compilerOptions": {
+		"target": "es2022",
+		"module": "commonjs"
+		// ... other options
+	}
 }
-
-// Custom chain definitions
-customChains: [{
-  chainId: 12345,
-  defaultRpcUrl: "https://custom-rpc.com",
-  chainName: "Custom Chain",
-  nativeCurrency: {
-    name: "Custom Token",
-    symbol: "CUSTOM",
-    decimals: 18
-  }
-}]
 ```
 
-### Supported Chains
+## Best Practices
 
-Pre-configured support for:
+This template enforces several best practices:
 
-- **Arbitrum** - Mainnet and testnets
-- **Base** - Coinbase's L2
-- **BSC** - Binance Smart Chain
-- **Fuse** - Fuse Network
-- **Hemi** - Hemi Network
-- **Lightlink Phoenix** - Lightlink testnet
-- **Story** - Story Protocol
-- **Swellchain** - Swell Network
-- **Bob** - Bob Network
-- **Gravity** - Gravity Chain
+- **Conventional Commits** - Standardized commit message format
+- **Code Quality** - Automated linting and formatting
+- **Type Safety** - Strict TypeScript configuration
+- **Import Organization** - Automatic import sorting
+- **Git Hooks** - Pre-commit validation
 
-## CAIP Integration
+## License
 
-The library implements Chain Agnostic Improvement Proposals:
-
-- **CAIP-2** - Chain ID specification (`eip155:1`)
-- **CAIP-10** - Token ID specification (`eip155:1:0x...`)
-- **Validation** - Zod schemas for ID validation
-- **Utilities** - Helper functions for ID generation and parsing
-
-## Usage Example
-
-```typescript
-import { ChainClientService } from "./evm-chain-client"
-import { Token, NativeCurrency, TokenAmount } from "./evm-primitives"
-
-// Initialize chain client
-const chainClient = new ChainClientService()
-
-// Create token instances
-const usdc = new Token(chainClient, "0x...", 1, {
-	symbol: "USDC",
-	name: "USD Coin",
-	decimals: 6,
-})
-
-const eth = new NativeCurrency(chainClient, 1, {
-	symbol: "ETH",
-	name: "Ethereum",
-	decimals: 18,
-})
-
-// Work with token amounts
-const amount = new TokenAmount(chainClient, usdc, 1000000n) // 1 USDC
-const balance = await usdc.balanceOf("0x...")
-const allowance = await usdc.allowance("0x...", "0x...")
-```
-
-## Architecture
-
-The library follows a modular architecture:
-
-- **Primitives** - Core data structures and business logic
-- **Chain Client** - Blockchain interaction layer
-- **CAIP Integration** - Standardized identifier system
-- **Utilities** - Helper functions and common operations
-
-Built with [viem](https://viem.sh) for robust EVM interactions and TypeScript for type safety.
+MIT License - feel free to use this template for your projects.
