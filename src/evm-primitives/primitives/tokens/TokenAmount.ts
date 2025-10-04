@@ -1,5 +1,5 @@
-import { createCustomError } from "../../../evm-utils/common"
 import { ChainClientService } from "../../../evm-chain-client/chain-client.service"
+import { createCustomError } from "../../../evm-utils/common"
 import { NativeCurrency } from "./NativeCurrency"
 import { Token } from "./Token"
 import { TokenBase } from "./TokenBase"
@@ -13,16 +13,11 @@ export class TokenAmount extends TokenBase {
 		readonly underlyingToken: Token | NativeCurrency | WrappedNative,
 		public amount: bigint,
 	) {
-		super(
-			chainClientService,
-			underlyingToken.address,
-			underlyingToken.chainId,
-			{
-				symbol: underlyingToken.symbol,
-				name: underlyingToken.name,
-				decimals: underlyingToken.decimals,
-			},
-		)
+		super(chainClientService, underlyingToken.address, underlyingToken.chainId, {
+			symbol: underlyingToken.symbol,
+			name: underlyingToken.name,
+			decimals: underlyingToken.decimals,
+		})
 	}
 
 	isNative(): boolean {
@@ -44,7 +39,6 @@ export class TokenAmount extends TokenBase {
 	}
 
 	validateToken(tokenAmount: TokenAmount) {
-		if (!this.isSame(tokenAmount))
-			throw new TokenAmountError("Math operation on different tokens")
+		if (!this.isSame(tokenAmount)) throw new TokenAmountError("Math operation on different tokens")
 	}
 }

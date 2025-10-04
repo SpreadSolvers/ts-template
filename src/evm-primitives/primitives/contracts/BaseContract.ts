@@ -18,9 +18,7 @@ export abstract class BaseContract {
 
 	private validateAddress(address: Address) {
 		if (!isAddress(address)) {
-			throw new BaseContractError(
-				`Contract address is invalid ${address}`,
-			)
+			throw new BaseContractError(`Contract address is invalid ${address}`)
 		}
 	}
 

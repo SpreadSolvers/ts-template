@@ -13,11 +13,7 @@ export class TokenIdUtils {
 
 		const [namespace, reference, address] = tokenIdChecked.split(":")
 
-		if (
-			namespace === undefined ||
-			reference === undefined ||
-			address === undefined
-		) {
+		if (namespace === undefined || reference === undefined || address === undefined) {
 			throw new TokenIdError(`Invalid token id: ${tokenId}`)
 		}
 

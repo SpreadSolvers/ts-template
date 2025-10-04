@@ -1,7 +1,6 @@
 {
 	"name": "evm",
 	"version": "1.0.0",
-	"main": "index.js",
 	"license": "MIT",
 	"type": "module",
 	"lint-staged": {
@@ -17,7 +16,8 @@
 		"prepare": "husky",
 		"check-types": "tsc --noEmit",
 		"lint": "eslint .",
-		"test": "echo 'No test framework implemented'"
+		"test": "echo 'No test framework implemented'",
+		"format": "prettier . --write"
 	},
 	"dependencies": {
 		"@types/node": "^24.6.2",

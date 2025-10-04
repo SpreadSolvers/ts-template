@@ -36,10 +36,7 @@ export async function poll<T>(
 	}
 }
 
-export async function runFuncWithDelay(
-	fn: () => unknown,
-	intervalMs: number,
-): Promise<void> {
+export async function runFuncWithDelay(fn: () => unknown, intervalMs: number): Promise<void> {
 	await fn()
 
 	while (true) {

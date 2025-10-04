@@ -1,22 +1,12 @@
-import {
-	Address,
-	getAddress,
-	getContract,
-	isAddress,
-	isAddressEqual,
-} from "viem"
+import { Address, getAddress, getContract, isAddress, isAddressEqual } from "viem"
 import { TokenId } from "../../../caip-id/value-objects/token-id"
-import { ERC20_ABI } from "../../abi/erc20"
 import { ChainClientService } from "../../../evm-chain-client/chain-client.service"
+import { ERC20_ABI } from "../../abi/erc20"
+import { TokenMetadata } from "./IToken"
 import { ETH_METADATA, NATIVE_CURRENCIES } from "./nativeCurrencies"
-import {
-	NATIVE_ADDRESS,
-	NativeCurrency,
-	STARGATE_NATIVE_ADDRESS,
-} from "./NativeCurrency"
+import { NATIVE_ADDRESS, NativeCurrency, STARGATE_NATIVE_ADDRESS } from "./NativeCurrency"
 import { Token } from "./Token"
 import { WrappedNative, wrappedTokens } from "./WrappedNative"
-import { TokenMetadata } from "./IToken"
 
 type TokenCacheKey = `${number}:${Address}`
 
@@ -38,10 +28,7 @@ export class TokenUtils {
 		return this.fromAddress<WrappedNative>(wrappedToken, chainId)
 	}
 
-	async fromAddress<T extends Token | NativeCurrency | WrappedNative>(
-		address: Address,
-		chainId: number,
-	): Promise<T> {
+	async fromAddress<T extends Token | NativeCurrency | WrappedNative>(address: Address, chainId: number): Promise<T> {
 		const checksumAddress = getAddress(address)
 		const cacheKey = this.getCacheKey(checksumAddress, chainId)
 		const cachedToken = this.tokenCache.get(cacheKey)
@@ -56,10 +43,7 @@ export class TokenUtils {
 		if (this.isNative(checksumAddress)) {
 			const token = this._createNative(chainId)
 
-			this.tokenCache.set(
-				this.getCacheKey(NATIVE_ADDRESS, chainId),
-				token,
-			)
+			this.tokenCache.set(this.getCacheKey(NATIVE_ADDRESS, chainId), token)
 
 			return token as T
 		}
@@ -85,19 +69,9 @@ export class TokenUtils {
 		}
 
 		if (this.isWrappedNative(checksumAddress, chainId)) {
-			token = new WrappedNative(
-				this.chainClientService,
-				this.getNative(chainId),
-				chainId,
-				metadata,
-			) as T
+			token = new WrappedNative(this.chainClientService, this.getNative(chainId), chainId, metadata) as T
 		} else {
-			token = new Token(
-				this.chainClientService,
-				checksumAddress,
-				chainId,
-				metadata,
-			) as T
+			token = new Token(this.chainClientService, checksumAddress, chainId, metadata) as T
 		}
 
 		this.tokenCache.set(cacheKey, token)
@@ -157,10 +131,7 @@ export class TokenUtils {
 	/* ======== CHECKERS ======== */
 
 	isNative(address: Address): boolean {
-		return (
-			isAddressEqual(address, NATIVE_ADDRESS) ||
-			isAddressEqual(address, STARGATE_NATIVE_ADDRESS)
-		)
+		return isAddressEqual(address, NATIVE_ADDRESS) || isAddressEqual(address, STARGATE_NATIVE_ADDRESS)
 	}
 
 	isWrappedNative(address: Address, chainId: number): boolean {

@@ -7,11 +7,7 @@ export const ETH_METADATA = {
 	decimals: 18,
 }
 
-function createMetadata(
-	symbol: string,
-	name: string,
-	decimals = 18,
-): TokenMetadata {
+function createMetadata(symbol: string, name: string, decimals = 18): TokenMetadata {
 	return {
 		symbol,
 		name,
