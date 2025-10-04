@@ -10,14 +10,5 @@ export default defineConfig([
 		extends: ["js/recommended"],
 		languageOptions: { globals: globals.browser },
 	},
-	...tseslint.configs.recommended.map((config: any) => ({
-		...config,
-		languageOptions: {
-			...config.languageOptions!,
-			parserOptions: {
-				...config.languageOptions!.parserOptions!,
-				tsconfigRootDir: "./",
-			},
-		},
-	})),
+	tseslint.configs.recommended,
 ])
