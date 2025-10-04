@@ -1,16 +1,35 @@
 {
-	"name": "ts-template",
-	"version": "1.0.0",
+	"name": "@spread-solvers/ts-template",
+	"version": "0.0.2",
+	"description": "TypeScript project template",
+	"author": "Spread Solvers Collective",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"private": false,
+	"files": [
+		"dist/**/*",
+		"README.md",
+		"LICENSE"
+	],
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.js"
+		}
+	},
 	"license": "MIT",
 	"type": "module",
-	"lint-staged": {
-		"*.{js,ts}": "eslint --fix",
-		"*.{js,ts,json}": "prettier --write"
-	},
-	"commitlint": {
-		"extends": [
-			"@commitlint/config-conventional"
-		]
+	"scripts": {
+		"prepare": "husky",
+		"check-types": "tsc --noEmit",
+		"lint": "eslint .",
+		"lint:fix": "yarn lint --fix",
+		"test": "echo 'No test framework implemented'",
+		"format": "prettier . --write",
+		"format:check": "prettier . --check",
+		"build": "tsc",
+		"prepublishOnly": "npm run build"
 	},
 	"prettier": {
 		"plugins": [
@@ -23,22 +42,21 @@
 		"printWidth": 120,
 		"semi": false
 	},
-	"scripts": {
-		"prepare": "husky",
-		"check-types": "tsc --noEmit",
-		"lint": "eslint .",
-		"test": "echo 'No test framework implemented'",
-		"format": "prettier . --write"
+	"lint-staged": {
+		"*.{js,ts}": "yarn lint:fix",
+		"*.{js,ts,json}": "yarn format"
 	},
-	"dependencies": {
-		"@types/node": "^24.6.2",
-		"typescript": "^5.9.3"
+	"commitlint": {
+		"extends": [
+			"@commitlint/config-conventional"
+		]
 	},
 	"devDependencies": {
 		"@commitlint/config-conventional": "^20.0.0",
-		"@eslint/js": "^9.36.0",
+		"@eslint/js": "^9.37.0",
+		"@types/node": "^24.6.2",
 		"commitlint": "^20.1.0",
-		"eslint": "^9.36.0",
+		"eslint": "^9.37.0",
 		"eslint-plugin-unused-imports": "^4.2.0",
 		"globals": "^16.4.0",
 		"husky": "^9.1.7",
@@ -47,6 +65,7 @@
 		"prettier": "3.5.3",
 		"prettier-plugin-organize-imports": "4.1.0",
 		"ts-node": "^10.9.2",
+		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.45.0"
 	}
 }
